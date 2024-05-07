@@ -12,6 +12,19 @@ Contenido a nivel superior del proyecto
 └── README.md                              # documentación general de la prueba
 ```
 
+## Recursos utilizados en la construición de este proycto
+
+### react
+
+- matx-react [Admin Dashboard template](<https://github.com/uilibrary/matx-react>)
+
+### java
+
+- Spring Boot
+- Gradle
+- JPA
+- Potgresql
+
 ## Objectivo de la prueba
 
 Validar tus conocimientos y técnica en desarrollo de aplicaciones en las tecnologías __JAVA__, __SPRING BOOT__ y __REACT__ y despliegue en __AWS__. No está descrito en la prueba, pero tener en cuenta las buenas practicas de desarrollo (Principios SOLID, pruebas unitarias, documentación, entre otros), estilo y patrones de arquitectruera.

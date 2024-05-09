@@ -1,6 +1,9 @@
-import { Box, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
 import { Breadcrumb } from "app/components";
+import axios from "axios";
+import { useEffect } from "react";
 import { useState } from "react";
+import EditEmpresaForm from "../material-kit/forms/EditEmpresaForm";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -23,75 +26,36 @@ const StyledTable = styled(Table)(() => ({
   }
 }));
 
-const subscribarList = [
-  {
-    name: "john doe",
-    date: "18 january, 2019",
-    amount: 1000,
-    status: "close",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD."
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD."
-  },
-  {
-    name: "james cassegne",
-    date: "8 january, 2019",
-    amount: 5000,
-    status: "close",
-    company: "Collboy Tech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  }
-];
-
 export default function Empresa() {
+
+  const url = "http://localhost:8080/api/v1/";
+
+  useEffect(() => {
+    axios.get(url+"empresas").then(res => {
+      setEmpresas(res.data);
+    })
+  }, [])
+
+  const handleClickOpen = async (empresa) => {
+    await setEmpresaEdit(empresa)
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    axios.get(url+"empresas").then(res => {
+      setEmpresas(res.data);
+    })
+  };
+
+  const [open, setOpen] = useState(false);
+  const [empresaEdit, setEmpresaEdit] = useState({});
+  const [empresas, setEmpresas] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [alertError, setAlertError] = useState(false);
+  const [alertSuccess, setAlertSuccess] = useState(false);
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -102,11 +66,40 @@ export default function Empresa() {
     setPage(0);
   };
 
+
+  const deleteEmpresa = (nit) => {
+    axios.delete(url+"empresas/"+nit).then(res => {
+      setAlertSuccess(true)
+      setAlertError(false)
+      axios.get(url+"empresas").then(res => {
+        setEmpresas(res.data);
+      });
+    }).catch((error) => {
+      if(error.response.status === 500) {
+        setAlertError(true)
+      }
+    })
+  }
+
   return (
     <Container>
       <Box className="breadcrumb">
         <Breadcrumb routeSegments={[{ name: "Listado de Empresas" }]} />
       </Box>
+
+      { alertError ? 
+      <Alert hidden={alertError} severity="error">
+        <AlertTitle>Error</AlertTitle>
+        Si las empresas han registrado productos, no se pueden eliminar.
+      </Alert>
+      : null }
+
+      { alertSuccess ? 
+      <Alert severity="success">
+        <AlertTitle>Success</AlertTitle>
+        Se ha eliminado la empresa, de forma exitosa.
+      </Alert>
+      : null }
 
       <Box width="100%" overflow="auto">
         <StyledTable>
@@ -120,19 +113,19 @@ export default function Empresa() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {subscribarList
+            {empresas
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((subscriber, index) => (
                 <TableRow key={index}>
-                  <TableCell align="left">{subscriber.name}</TableCell>
-                  <TableCell align="center">{subscriber.company}</TableCell>
-                  <TableCell align="center">{subscriber.date}</TableCell>
-                  <TableCell align="center">{subscriber.status}</TableCell>
+                  <TableCell align="left">{subscriber.nombre}</TableCell>
+                  <TableCell align="center">{subscriber.nit}</TableCell>
+                  <TableCell align="center">{subscriber.direccion}</TableCell>
+                  <TableCell align="center">{subscriber.telefono}</TableCell>
                   <TableCell align="right">
-                    <IconButton>
-                      <Icon color="error">close</Icon>
+                    <IconButton onClick={() => deleteEmpresa(subscriber.nit)}>
+                      <Icon color="error">delete_forever</Icon>
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => handleClickOpen(subscriber)}>
                       <Icon color="primary">edit</Icon>
                     </IconButton>
                   </TableCell>
@@ -145,7 +138,7 @@ export default function Empresa() {
           page={page}
           component="div"
           rowsPerPage={rowsPerPage}
-          count={subscribarList.length}
+          count={empresas.length}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -153,6 +146,25 @@ export default function Empresa() {
           backIconButtonProps={{ "aria-label": "Previous Page" }}
         />
       </Box>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Editar información de la Empresa."}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Esta es la información de la empresa que deseamos actualizar.
+            <EditEmpresaForm handleClose={handleClose} empresa={empresaEdit} />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Descartar</Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

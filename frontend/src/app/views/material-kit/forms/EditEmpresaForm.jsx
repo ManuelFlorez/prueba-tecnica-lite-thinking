@@ -15,7 +15,7 @@ const TextField = styled(TextValidator)(() => ({
   marginBottom: "16px"
 }));
 
-const NewEmpresaForm = () => {
+const EditEmpresaForm = (props) => {
 
   const navigate = useNavigate();
   
@@ -33,15 +33,17 @@ const NewEmpresaForm = () => {
   }, [state.password]);
 
   const handleSubmit = (event) => {
-    // console.log("submitted");
-    // console.log(event);
-    axios.post(url+"empresas", {
-      nit,
-      nombre,
-      direccion,
-      telefono,
+    //console.log(event)
+    //console.log(`nombre: ${nombre}`)
+    //console.log(event.target.nombre.value)
+    
+    axios.put(url+"empresas/"+props.empresa.nit, {
+      nombre: event.target.nombre.value,
+      direccion: event.target.direccion.value,
+      telefono: event.target.telefono.value,
     }).then(res => {
       navigate("/dashboard/empresa");
+      props.handleClose(false)
     })
   };
 
@@ -51,7 +53,6 @@ const NewEmpresaForm = () => {
   };
 
   const {
-    nit,
     nombre,
     direccion,
     telefono,
@@ -61,24 +62,14 @@ const NewEmpresaForm = () => {
     <div>
       <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
         <Grid container spacing={12}>
-          <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-            <TextField
-              type="text"
-              name="nit"
-              id="standard-basic"
-              value={nit || ""}
-              onChange={handleChange}
-              errorMessages={["this field is required"]}
-              label="NIT (Min length 4, Max length 9)"
-              validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
-            />
+          <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
 
             <TextField
               type="text"
               name="nombre"
               label="Nombre"
               onChange={handleChange}
-              value={nombre || ""}
+              value={nombre || props.empresa.nombre}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
@@ -87,7 +78,7 @@ const NewEmpresaForm = () => {
               type="text"
               name="direccion"
               label="Dirección"
-              value={direccion || ""}
+              value={direccion || props.empresa.direccion}
               onChange={handleChange}
               validators={["required"]}
               errorMessages={["this field is required"]}
@@ -97,7 +88,7 @@ const NewEmpresaForm = () => {
               type="text"
               name="telefono"
               label="Teléfono"
-              value={telefono || ""}
+              value={telefono || props.empresa.telefono}
               onChange={handleChange}
               validators={["required"]}
               errorMessages={["this field is required"]}
@@ -108,11 +99,11 @@ const NewEmpresaForm = () => {
 
         <Button color="primary" variant="contained" type="submit">
           <Icon>send</Icon>
-          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Crear</Span>
+          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Guardar</Span>
         </Button>
       </ValidatorForm>
     </div>
   );
 };
 
-export default NewEmpresaForm;
+export default EditEmpresaForm;

@@ -1,9 +1,11 @@
-import { Box, Button, Grid, Icon, styled } from "@mui/material";
+import { Box, Button, FormControl, Grid, Icon, InputLabel, MenuItem, Select, styled } from "@mui/material";
 import { Breadcrumb, SimpleCard } from "app/components";
 import { Span } from "app/components/Typography";
+import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import { useNavigate } from "react-router-dom";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -22,7 +24,13 @@ const TextField = styled(TextValidator)(() => ({
 
 export default function NewProducto () {
 
-  const [state, setState] = useState({ date: new Date() });
+  const url = "http://localhost:8080/api/v1/";
+
+  const [state, setState] = useState({ date: new Date(), nitEmpresa: "" });
+
+  const [empresas, setEmpresas] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
@@ -33,13 +41,33 @@ export default function NewProducto () {
     return () => ValidatorForm.removeValidationRule("isPasswordMatch");
   }, [state.password]);
 
+  useEffect(() => {
+    axios.get(url+"empresas").then(res => {
+      setEmpresas(res.data);
+    })
+  }, [])
+
   const handleSubmit = (event) => {
-    // console.log("submitted");
-    // console.log(event);
+    //console.log("submitted");
+    //console.log(event);
+
+    axios.post(url+"productos", {
+      codigo,
+      nombre,
+      caracteristicas,
+      precio,
+      nitEmpresa
+    }).then(res => {
+      //console.log(res);
+      //console.log(res.data);
+      navigate("/dashboard/producto");
+    })
   };
 
   const handleChange = (event) => {
-    event.persist();
+    if(event.persist) {
+      event.persist();
+    }
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
@@ -47,7 +75,8 @@ export default function NewProducto () {
     codigo,
     nombre,
     caracteristicas,
-    precio
+    precio,
+    nitEmpresa
   } = state;
 
   return (
@@ -83,24 +112,40 @@ export default function NewProducto () {
 
             <TextField
               type="text"
-              name="direccion"
-              label="Dirección"
+              name="caracteristicas"
+              label="Caracteristicas"
               value={caracteristicas || ""}
               onChange={handleChange}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
 
+            <FormControl style={{ "marginBottom": "16px" }} fullWidth>
+              <InputLabel id="demo-simple-select-label">Seleccionar Empresa</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="nitEmpresa"
+                label="Seleccionar Empresa"
+                value={nitEmpresa}
+                onChange={handleChange}
+                validators={["required"]}
+              >
+                { empresas.map((empresa, index) => (
+                  <MenuItem key={index} value={empresa.nit}>{empresa.nombre}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
             <TextField
               type="text"
-              name="telefono"
-              label="Teléfono"
+              name="precio"
+              label="Precio"
               value={precio || ""}
               onChange={handleChange}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
-
           </Grid>
         </Grid>
 

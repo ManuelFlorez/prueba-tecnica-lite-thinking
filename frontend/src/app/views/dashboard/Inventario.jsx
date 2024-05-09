@@ -13,6 +13,9 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 export default function Inventario () {
+
+  const url = "http://localhost:8080/api/v1/create-pdf";
+
   return (
     <Container>
       <Box className="breadcrumb">
@@ -22,7 +25,9 @@ export default function Inventario () {
       <SimpleCard title="Descargar inventario en formato PDF">
         <Button color="success" variant="contained" type="submit">
           <Icon>send</Icon>
-          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Crear</Span>
+          <Span sx={{ pl: 1, textTransform: "capitalize" }}>
+            <a href={url}>Crear</a>
+          </Span>
         </Button>
       </SimpleCard>
 

@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody LoginPayload loginPayload) throws GeneralSecurityException, IOException {
         return ResponseEntity.ok(
-                mapper( auth.login(loginPayload.userName(), loginPayload.password()) )
+                mapper( auth.login(loginPayload.email(), loginPayload.password()) )
         );
     }
 

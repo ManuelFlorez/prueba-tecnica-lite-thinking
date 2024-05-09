@@ -20,6 +20,7 @@ const NewEmpresa = Loadable(lazy(() => import("app/views/dashboard/NewEmpresa"))
 const Producto = Loadable(lazy(() => import("app/views/dashboard/Producto")));
 const NewProducto = Loadable(lazy(() => import("app/views/dashboard/NewProducto")));
 const Inventario = Loadable(lazy(() => import("app/views/dashboard/Inventario")));
+const ShowEmpresas = Loadable(lazy(() => import("app/views/dashboard/ShowEmpresas")));
 
 const routes = [
   {
@@ -75,6 +76,12 @@ const routes = [
         path: "/charts/echarts",
         element: <AppEchart />,
         auth: authRoles.editor
+      },
+      // external
+      {
+        path: "dashboard/showEmpresas",
+        element: <ShowEmpresas />,
+        auth: authRoles.external
       }
     ]
   },

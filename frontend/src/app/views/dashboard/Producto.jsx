@@ -2,7 +2,6 @@ import { Alert, AlertTitle, Box, Icon, IconButton, Stack, styled, Table, TableBo
 import { Breadcrumb } from "app/components";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({

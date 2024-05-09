@@ -12,6 +12,24 @@ const userList = [
     email: "jason@ui-lib.com",
     avatar: "/assets/images/face-8.png",
     age: 25
+  },
+  {
+    id: 1,
+    role: "SA",
+    name: "Manuel Florez",
+    username: "jason_alexander",
+    email: "admin@app.com",
+    avatar: "/assets/images/face-8.png",
+    age: 25
+  },
+  {
+    id: 1,
+    role: "EXTERNAL",
+    name: "Manuel Florez",
+    username: "jason_alexander",
+    email: "externo@app.com",
+    avatar: "/assets/images/face-6.png",
+    age: 25
   }
 ];
 

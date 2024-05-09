@@ -28,8 +28,8 @@ public class UsersConfig {
             // https://stackoverflow.com/questions/1132567/encrypt-password-in-configuration-files
 
             String[][]users = {
-                    {"ADMIN", "admin", "pass123"},
-                    {"OUTSIDE", "externo", "pass456"}
+                    {"ADMIN", "admin@app.com", "pass123"},
+                    {"OUTSIDE", "externo@app.com", "pass456"}
             };
             userRepository.findAll().forEach(userRepository::delete);
             roleRepository.findAll().forEach(roleRepository::delete);

@@ -66,7 +66,7 @@ export default function JwtLogin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errorLogin, setErrorLogin] = useState(false);
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const handleFormSubmit = async (values) => {
     setLoading(true);

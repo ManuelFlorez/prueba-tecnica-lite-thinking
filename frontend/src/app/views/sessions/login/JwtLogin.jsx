@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Card, Checkbox, Grid, TextField, Box, styled, useTheme } from "@mui/material";
+import { Card, Checkbox, Grid, TextField, Box, styled, useTheme, Alert } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 import useAuth from "app/hooks/useAuth";
 import { Paragraph } from "app/components/Typography";
+import { useContext } from "react";
 
 // STYLED COMPONENTS
 const FlexBox = styled(Box)(() => ({
@@ -64,16 +65,17 @@ export default function JwtLogin() {
   const theme = useTheme();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
-  const { login } = useAuth();
+  const [errorLogin, setErrorLogin] = useState(false);
+  const { login, user } = useAuth();
 
   const handleFormSubmit = async (values) => {
     setLoading(true);
     try {
+      setErrorLogin(false);
       await login(values.email, values.password);
       navigate("/dashboard/empresa");
-      //navigate("/");
     } catch (e) {
+      setErrorLogin(true);
       setLoading(false);
     }
   };
@@ -82,6 +84,15 @@ export default function JwtLogin() {
     <StyledRoot>
       <Card className="card">
         <Grid container>
+
+        { errorLogin ? 
+          <Grid item sm={12} xs={12}>
+            <ContentBox>
+              <Alert severity="error">Inicio de sesion invalido.</Alert>
+            </ContentBox>
+          </Grid>
+          : null }
+
           <Grid item sm={6} xs={12}>
             <div className="img-wrapper">
               <img src="/assets/images/illustrations/dreamer.svg" width="100%" alt="" />

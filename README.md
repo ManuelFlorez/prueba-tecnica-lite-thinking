@@ -12,7 +12,72 @@ Contenido a nivel superior del proyecto
 └── README.md                              # documentación general de la prueba
 ```
 
-## Recursos utilizados en la construición de este proycto
+## Ejecuar el proyecto en entorno local
+
+Para esto podemos utiliza Docker y docker-compose, ingresamos al projecto __frontend__ (reactjs) usamos _npm install_ para descargar las dependencias y compilamos el proyecto frontend con __npm build__, luego ingresamos al proyecto backend compilamos con gradle ejemplo: __./gradlew build__. despues de haver compilado los proyectos, nos ubicamos en la raiz del proyecto para construir con docker-compose _docker-compose build_ y desplegamos con _docker_compose up -d_
+
+```bash
+cd frontend
+npm install
+npm run build
+
+cd ..
+cd backend
+./gradlew build
+
+cd..
+
+docker-compose build
+docker-compose up -d
+```
+
+Si usamos Docker desktop podremos observar los contenedores en ejecución correctamente
+
+![docker-compose](/frontend/public/assets/images/docs/docker-compose.png)
+
+## Modelo Entidad-Relación
+
+Se planteó el siguiente modelo entidad-relación
+
+![modelo-entidad-relacion](/frontend/public/assets/images/docs/modelo-entidad-relacion.png)
+
+## Vistas planteadas
+
+Vista Inicio de Sesion
+
+![Inicio de sesion](/frontend/public/assets/images/docs/vista-inicio-sesion.png)
+
+Vista Empresa
+
+![Listado de Empresas](/frontend/public/assets/images/docs/vista-empresa.png)
+
+Editar Empresa
+
+![Listado de Empresas](/frontend/public/assets/images/docs/vista-empresa-editar.png)
+
+Vista Listado de Empresas
+
+![Listado de Empresas](/frontend/public/assets/images/docs/vista-empresa-lista.png)
+
+Vista de Productos
+
+![Nuevo Producto](/frontend/public/assets/images/docs/vista-producto.png)
+
+Vista Listado de Productos
+
+![Lista de Productos](/frontend/public/assets/images/docs/vista-producto-lista.png)
+
+Vista Inventario
+
+![inventario](/frontend/public/assets/images/docs/vista-inventario.png)
+
+## Archivo PDF descargado de inventario
+
+Con la opción de descargar el inventario, se genera un archivo en Formato PDF con los productos registrados de la tabla productos extrae nombre, código y precio, y de la relación con la tabla empresas estrae el nombre el cual es la empresa con que fue registrado cada producto.
+
+![inventario](/frontend/public/assets/images/docs/pdf-inventario.png)
+
+## Recursos utilizados en la construición de este proyecto
 
 ### react
 
@@ -25,59 +90,22 @@ Contenido a nivel superior del proyecto
 - JPA
 - Potgresql
 
-## Objectivo de la prueba
+## Deploy de la aplicación en AWS
 
-Validar tus conocimientos y técnica en desarrollo de aplicaciones en las tecnologías __JAVA__, __SPRING BOOT__ y __REACT__ y despliegue en __AWS__. No está descrito en la prueba, pero tener en cuenta las buenas practicas de desarrollo (Principios SOLID, pruebas unitarias, documentación, entre otros), estilo y patrones de arquitectruera.
+- Elastic Beanstalk
+- Amazon RDS
+- Amazon S3
 
-## Descripción de la prueba: Construir una aplicación que exponga las siguientes vistas
+Se utilizó __Elastic Beanstalk__ para el backend creado con Java y Spring Boot, Se utilizó el servicio __Amazon RDS__ para la base de datos _POSTGRES_, se utilizó __Amazon S3__ para desplegar el frontend creado con _reactjs_.
 
-a) Vista __Empresa__ con un formulario que capture la siguiente información:
+## Elastic Beanstalk
 
-- NIT (Llave primaria).
-- Nombre de la empresa.
-- Dirección.
-- Teléfono.
+![Elastic Beanstalk](/frontend/public/assets/images/docs/elastic-beanstalk.png)
 
-b) Vista de __Productos__ con un formulario que capture la siguiente información:
+## Amazon RDS
 
-- Código.
-- Nombre del producto.
-- Características.
-- Precio en varias monedas.
-- Empresa.
+![Amazon rds](/frontend/public/assets/images/docs/amazon-rds.png)
 
-c) Vista de __Inicio de Sesión__ con un formulario que capture la información del usuario: correo y contraseña.
+## Amazon S3
 
-d) Vista de __inventario__ con un formulario que permita la descarga de un PDF con la información de esa tabla y adicional utilizar alguna API de AWS para poder enviar ese PDF a un correo deseado.
-
-e) Deben existir dos tipos de usuarios:
-
-- __Administrador__ Tiene acceso a las funciones de eliminación, registro y/o edición de una empresa.
-Adicionalmente, ese usuario podrá registrar productos por empresa y guardarlos en una tabla inventario, donde se vean los productos por empresa.
-
-- __Externo__ Puede visualizar las empresas como visitante.
-
-f) El modelo entidad-relación de la base de datos para guardar la información anterior debe contener: Empresa, Producto, Categoria, Cliente y Ordenes. Asegúrate que la Base de Datos que plantees cumpla con los siguientes requisitos:
-
-- Un Producto puede pertenecer a múltiples Categorías.
-- Un Cliente puede tener multiples Órdenes.
-- Las ordenes pueden tener múltiples Productos.
-
-g) la contraseña utilizada debe estar encriptada para autenticación del Usuario __Administrador__
-
-h) Publique tu aplicación en en servidor en la nube de AWS.
-
-## __Entregables:__
-
-- Enlace de la aplicación desplegada en AWS.
-- Usuario y contraseña de los tipos de usuario: __Administrador__ y __Externo__.
-- Enlace del repositorio donde esta almacenado el código fuente.
-- Readme de todo el proyecto.
-
->## __Nota:__
->
-> La funcionalidad de la aplicación es totalmente abierta a tu análisis y diseño, es parte de lo que se pretende evaluar, así que eres libre de definir la forma de capturar y generar la información. Además utilizar las buenas prácticas de la arquitectura de software para el desarrollo de aplicaciones web modernas.
->
->Toda la información registrada en los formularios debe ir almacenada en una base de datos.
->
->Cualquier duda o inquietud te puedes comunicar al WhatsApp __+57 3246859004__
+![Amazon s3](/frontend/public/assets/images/docs/amazon-s3.png)

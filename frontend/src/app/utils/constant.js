@@ -3,5 +3,4 @@ export const sideNavWidth = 260;
 export const navbarHeight = 60;
 export const sidenavCompactWidth = 80;
 export const containedLayoutWidth = 1200;
-//export const API_SERVER = "http://localhost:8080/api/v1/";
-export const API_SERVER = "http://manuel-backend.us-east-2.elasticbeanstalk.com/api/v1/";
+export const API_SERVER = "http://localhost:8080/api/v1/";

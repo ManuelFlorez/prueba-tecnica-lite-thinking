@@ -1,6 +1,6 @@
 import { Alert, AlertTitle, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
 import { Breadcrumb } from "app/components";
-import axios from "axios";
+import axios from "app/utils/axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import EditEmpresaForm from "../material-kit/forms/EditEmpresaForm";
@@ -28,10 +28,8 @@ const StyledTable = styled(Table)(() => ({
 
 export default function Empresa() {
 
-  const url = "http://localhost:8080/api/v1/";
-
   useEffect(() => {
-    axios.get(url+"empresas").then(res => {
+    axios.get("empresas").then(res => {
       setEmpresas(res.data);
     })
   }, [])
@@ -43,7 +41,7 @@ export default function Empresa() {
 
   const handleClose = () => {
     setOpen(false);
-    axios.get(url+"empresas").then(res => {
+    axios.get("empresas").then(res => {
       setEmpresas(res.data);
     })
   };
@@ -68,10 +66,10 @@ export default function Empresa() {
 
 
   const deleteEmpresa = (nit) => {
-    axios.delete(url+"empresas/"+nit).then(res => {
+    axios.delete("empresas/"+nit).then(res => {
       setAlertSuccess(true)
       setAlertError(false)
-      axios.get(url+"empresas").then(res => {
+      axios.get("empresas").then(res => {
         setEmpresas(res.data);
       });
     }).catch((error) => {

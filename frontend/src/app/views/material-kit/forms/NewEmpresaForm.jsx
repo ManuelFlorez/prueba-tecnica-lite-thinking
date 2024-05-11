@@ -5,7 +5,7 @@ import {
   styled
 } from "@mui/material";
 import { Span } from "app/components/Typography";
-import axios from "axios";
+import axios from "app/utils/axios";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +18,6 @@ const TextField = styled(TextValidator)(() => ({
 const NewEmpresaForm = () => {
 
   const navigate = useNavigate();
-  
-  const url = "http://localhost:8080/api/v1/";
 
   const [state, setState] = useState({ date: new Date() });
 
@@ -35,7 +33,7 @@ const NewEmpresaForm = () => {
   const handleSubmit = (event) => {
     // console.log("submitted");
     // console.log(event);
-    axios.post(url+"empresas", {
+    axios.post("empresas", {
       nit,
       nombre,
       direccion,

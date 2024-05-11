@@ -7,7 +7,6 @@ import * as Yup from "yup";
 
 import useAuth from "app/hooks/useAuth";
 import { Paragraph } from "app/components/Typography";
-import { useContext } from "react";
 
 // STYLED COMPONENTS
 const FlexBox = styled(Box)(() => ({

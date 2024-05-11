@@ -1,6 +1,6 @@
 import { Alert, AlertTitle, Box, Icon, IconButton, Stack, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
 import { Breadcrumb } from "app/components";
-import axios from "axios";
+import axios from "app/utils/axios";
 import { useEffect, useState } from "react";
 
 // STYLED COMPONENTS
@@ -25,7 +25,6 @@ const StyledTable = styled(Table)(() => ({
 }));
 
 export default function Producto () {
-  const url = "http://localhost:8080/api/v1/";
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -34,7 +33,7 @@ export default function Producto () {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    axios.get(url+"productos").then(res => {
+    axios.get("productos").then(res => {
       setProductos(res.data);
     })
   }, [])
@@ -49,10 +48,10 @@ export default function Producto () {
   };
 
   const deleteProduct = (productoId) => {
-    axios.delete(url+"productos/"+productoId).then(res => {
+    axios.delete("productos/"+productoId).then(res => {
       setAlertSuccess(true)
       setAlertError(false)
-      axios.get(url+"productos").then(res => {
+      axios.get("productos").then(res => {
         setProductos(res.data);
       })
     }).catch((error) => {

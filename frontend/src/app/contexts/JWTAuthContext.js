@@ -46,29 +46,13 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  /*
-  const login2 = async (email, password) => {
+  
+  const login = async (email, password) => {
     const response = await axios.post("/api/auth/login", { email, password });
     const { user } = response.data;
     
     dispatch({ type: "LOGIN", payload: { user } });
   };
-  */
-
-  const login = async (email, password) => {
-    const response = await axios.post(`http://localhost:8080/api/v1/login`, { email, password })
-    console.log(response.data)
-    const user = {
-      id: response.data.id,
-      role: response.data.roles[0],
-      name: "Usuario Administrador",
-      username: "jason_alexander",
-      email,
-      avatar: "/assets/images/face-6.png",
-      age: 25
-    }
-    dispatch({ type: "LOGIN", payload: { user } });
-  }
 
   const register = async (email, username, password) => {
     const response = await axios.post("/api/auth/register", { email, username, password });

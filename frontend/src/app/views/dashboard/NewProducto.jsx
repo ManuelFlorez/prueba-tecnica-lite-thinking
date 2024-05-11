@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, Grid, Icon, InputLabel, MenuItem, Select, styled } from "@mui/material";
 import { Breadcrumb, SimpleCard } from "app/components";
 import { Span } from "app/components/Typography";
-import axios from "axios";
+import axios from "app/utils/axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -24,8 +24,6 @@ const TextField = styled(TextValidator)(() => ({
 
 export default function NewProducto () {
 
-  const url = "http://localhost:8080/api/v1/";
-
   const [state, setState] = useState({ date: new Date(), nitEmpresa: "" });
 
   const [empresas, setEmpresas] = useState([]);
@@ -42,7 +40,7 @@ export default function NewProducto () {
   }, [state.password]);
 
   useEffect(() => {
-    axios.get(url+"empresas").then(res => {
+    axios.get("empresas").then(res => {
       setEmpresas(res.data);
     })
   }, [])
@@ -51,7 +49,7 @@ export default function NewProducto () {
     //console.log("submitted");
     //console.log(event);
 
-    axios.post(url+"productos", {
+    axios.post("productos", {
       codigo,
       nombre,
       caracteristicas,

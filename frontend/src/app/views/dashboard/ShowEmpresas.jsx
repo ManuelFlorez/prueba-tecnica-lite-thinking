@@ -1,9 +1,8 @@
-import { Alert, AlertTitle, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
+import { Box, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
 import { Breadcrumb } from "app/components";
-import axios from "axios";
+import axios from "app/utils/axios";
 import { useEffect } from "react";
 import { useState } from "react";
-import EditEmpresaForm from "../material-kit/forms/EditEmpresaForm";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -28,10 +27,8 @@ const StyledTable = styled(Table)(() => ({
 
 export default function ShowEmpresas() {
 
-  const url = "http://localhost:8080/api/v1/";
-
   useEffect(() => {
-    axios.get(url+"empresas").then(res => {
+    axios.get("empresas").then(res => {
       setEmpresas(res.data);
     })
   }, [])

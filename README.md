@@ -2,6 +2,15 @@
 
 ## PRUEBA TÉCNICA LITE THINKING - 2024 DESARROLLADOR JAVA Y SPRING BOOT
 
+- [Código](#codigo)
+- [Modelo entidad-relacion](#modelo-entidad-relación)
+- [Vistas planteadas](#vistas-planteadas)
+- [Archivo PDF descargado de inventario](#archivo-pdf-descargado-de-inventario)
+- [Recursos utilizados en la construición de este proyecto](#recursos-utilizados-en-la-construición-de-este-proyecto)
+- [Deploy de la aplicación en AWS](#deploy-de-la-aplicación-en-aws)
+
+## [Codigo](#codigo)
+
 Contenido a nivel superior del proyecto
 
 ```txt
@@ -12,7 +21,7 @@ Contenido a nivel superior del proyecto
 └── README.md                              # documentación general de la prueba
 ```
 
-## Ejecuar el proyecto en entorno local
+## Correr el proyecto en entorno local
 
 Para esto podemos utiliza Docker y docker-compose, ingresamos al projecto __frontend__ (reactjs) usamos _npm install_ para descargar las dependencias y compilamos el proyecto frontend con __npm build__, luego ingresamos al proyecto backend compilamos con gradle ejemplo: __./gradlew build__. despues de haver compilado los proyectos, nos ubicamos en la raiz del proyecto para construir con docker-compose _docker-compose build_ y desplegamos con _docker_compose up -d_
 
@@ -35,13 +44,13 @@ Si usamos Docker desktop podremos observar los contenedores en ejecución correc
 
 ![docker-compose](/frontend/public/assets/images/docs/docker-compose.png)
 
-## Modelo Entidad-Relación
+## [Modelo Entidad-Relación](#modelo-entidad-relación)
 
 Se planteó el siguiente modelo entidad-relación
 
 ![modelo-entidad-relacion](/frontend/public/assets/images/docs/modelo-entidad-relacion.png)
 
-## Vistas planteadas
+## [Vistas planteadas](#vistas-planteadas)
 
 Vista Inicio de Sesion
 
@@ -71,13 +80,13 @@ Vista Inventario
 
 ![inventario](/frontend/public/assets/images/docs/vista-inventario.png)
 
-## Archivo PDF descargado de inventario
+## [Archivo PDF descargado de inventario](#archivo-pdf-descargado-de-inventario)
 
 Con la opción de descargar el inventario, se genera un archivo en Formato PDF con los productos registrados de la tabla productos extrae nombre, código y precio, y de la relación con la tabla empresas estrae el nombre el cual es la empresa con que fue registrado cada producto.
 
 ![inventario](/frontend/public/assets/images/docs/pdf-inventario.png)
 
-## Recursos utilizados en la construición de este proyecto
+## [Recursos utilizados en la construición de este proyecto](#recursos-utilizados-en-la-construición-de-este-proyecto)
 
 ### react
 
@@ -90,7 +99,7 @@ Con la opción de descargar el inventario, se genera un archivo en Formato PDF c
 - JPA
 - Potgresql
 
-## Deploy de la aplicación en AWS
+## [Deploy de la aplicación en AWS](#deploy-de-la-aplicación-en-aws)
 
 - Elastic Beanstalk
 - Amazon RDS

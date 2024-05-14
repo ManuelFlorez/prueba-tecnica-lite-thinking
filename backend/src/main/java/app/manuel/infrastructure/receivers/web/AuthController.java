@@ -1,40 +1,34 @@
 package app.manuel.infrastructure.receivers.web;
 
-import app.manuel.domain.usecase.Auth;
-import app.manuel.infrastructure.adapter.postgres.entities.Role;
-import app.manuel.infrastructure.adapter.postgres.entities.User;
-import app.manuel.infrastructure.receivers.web.dto.Profile;
-import app.manuel.infrastructure.receivers.web.dto.UserDto;
-import app.manuel.infrastructure.receivers.web.payload.LoginPayload;
+import app.manuel.domain.interfaces.AuthService;
+import app.manuel.infrastructure.receivers.web.dto.AuthResponse;
+import app.manuel.infrastructure.receivers.web.payload.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/auth")
 public class AuthController {
 
-    private final Auth auth;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(Auth auth) {
-        this.auth = auth;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @CrossOrigin
-    @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody LoginPayload loginPayload) throws GeneralSecurityException, IOException {
+    @PostMapping(value = "login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(
-                mapper( auth.login(loginPayload.email(), loginPayload.password()) )
-        );
+                AuthResponse.builder().token(
+                        authService.login(request.getEmail(), request.getPassword()))
+                        .build());
     }
 
+    /*
     @CrossOrigin
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile() {
@@ -65,5 +59,6 @@ public class AuthController {
                 user.getRoles().stream().map(Role::getName).toList()
         );
     }
+    */
 
 }

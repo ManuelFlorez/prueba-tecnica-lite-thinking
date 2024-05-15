@@ -29,7 +29,7 @@ const StyledTable = styled(Table)(() => ({
 export default function Empresa() {
 
   useEffect(() => {
-    axios.get("empresas").then(res => {
+    axios.get("api/v1/empresas").then(res => {
       setEmpresas(res.data);
     })
   }, [])
@@ -41,7 +41,7 @@ export default function Empresa() {
 
   const handleClose = () => {
     setOpen(false);
-    axios.get("empresas").then(res => {
+    axios.get("api/v1/empresas").then(res => {
       setEmpresas(res.data);
     })
   };
@@ -66,10 +66,10 @@ export default function Empresa() {
 
 
   const deleteEmpresa = (nit) => {
-    axios.delete("empresas/"+nit).then(res => {
+    axios.delete("api/v1/empresas/"+nit).then(res => {
       setAlertSuccess(true)
       setAlertError(false)
-      axios.get("empresas").then(res => {
+      axios.get("api/v1/empresas").then(res => {
         setEmpresas(res.data);
       });
     }).catch((error) => {

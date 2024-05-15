@@ -10,8 +10,6 @@ import app.manuel.infrastructure.receivers.web.payload.ProfileRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.module.ResolutionException;
@@ -29,7 +27,6 @@ public class UserController {
 
     private static final String USER_NOT_FOUND = "User not found for this id :: ";
 
-    @CrossOrigin
     @PostMapping(value = "profile")
     public ResponseEntity<Profile> getProfile(@RequestBody ProfileRequest request) {
         Profile profile = null;
@@ -40,7 +37,7 @@ public class UserController {
                         "SA",
                         "Manuel Florez",
                         "jason_alexander",
-                        "jason@ui-lib.com",
+                        "admin@app.com",
                         "/assets/images/face-6.png",
                         25
                 );
@@ -51,7 +48,7 @@ public class UserController {
                         "SA",
                         "Manuel Florez",
                         "jason_alexander",
-                        "jason@ui-lib.com",
+                        "externo@app.com",
                         "/assets/images/face-6.png",
                         25
                 );

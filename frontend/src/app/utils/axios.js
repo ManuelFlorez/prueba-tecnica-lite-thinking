@@ -8,13 +8,22 @@ const axios = Axios.create({
 
 axios.interceptors.request.use(
   (config) => {
+    if (config.url !== 'auth/login') {
+      config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+      config.headers['Content-Type'] = 'application/json'
+    }
     return Promise.resolve(config)
   },
   (error) => Promise.reject(error)
 );
 
 axios.interceptors.response.use(
-  (response) => Promise.resolve(response),
+  (response) => {
+    if (response.config.url === 'auth/login') {
+      localStorage.setItem('token', response.data.token);
+    }
+    return Promise.resolve(response)
+  },
   (error) => {
     return Promise.reject(error);
   }

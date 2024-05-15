@@ -39,9 +39,10 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   
   const login = async (email, password) => {
-    const response = await axios.post(`/login`, { email, password })
-    const { user } = mapUser( response.data )
-
+    await axios.post(`auth/login`, { email, password })
+    const { data } = await axios.post(`api/v1/profile`, { username: email })
+    const { user } = mapUser( data )
+    dispatch({ type: "INIT", payload: { isAuthenticated: true, user: data.user } })
     dispatch({ type: "LOGIN", payload: { user } });
   }
 
@@ -52,11 +53,11 @@ export const AuthProvider = ({ children }) => {
   const mapUser = (data) => {
     const user = {
       id: data.id,
-      role: data.roles[0],
-      name: data.userName === "admin@app.com" ? "Mamuel Florez" : "Externo",
+      role: data.role,
+      name: data.userName,
       username: data.userName,
       email: data.userName,
-      avatar: data.userName === "admin@app.com" ? "/assets/images/face-8.png" : "/assets/images/face-6.jpg",
+      avatar: data.userName,
       age: 25
     };
     return { user };
@@ -65,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     (async () =>{
       try {
-        const { data } = await axios.get(`/profile`)
+        const { data } = await axios.post(`api/v1/profile`, { username: state.user.userName })
         dispatch({ type: "INIT", payload: { isAuthenticated: true, user: data.user } });
       } catch (err) {
         dispatch({ type: "INIT", payload: { isAuthenticated: false, user: null } });

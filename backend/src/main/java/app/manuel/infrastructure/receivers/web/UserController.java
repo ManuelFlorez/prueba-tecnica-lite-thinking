@@ -3,10 +3,12 @@ package app.manuel.infrastructure.receivers.web;
 import app.manuel.infrastructure.adapter.postgres.entities.Role;
 import app.manuel.infrastructure.adapter.postgres.entities.User;
 import app.manuel.infrastructure.adapter.postgres.repository.UserRepository;
+import app.manuel.infrastructure.receivers.web.dto.Profile;
 import app.manuel.infrastructure.receivers.web.dto.UserDto;
 import app.manuel.infrastructure.receivers.web.exception.ResourceNotFoundException;
+import app.manuel.infrastructure.receivers.web.payload.ProfileRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +20,43 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserRepository userRepository;
 
     private static final String USER_NOT_FOUND = "User not found for this id :: ";
 
-    @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @PostMapping(value = "profile")
+    public ResponseEntity<Profile> getProfile(@RequestBody ProfileRequest request) {
+        Profile profile = null;
+        switch (request.getUsername()) {
+            case "admin@app.com":
+                profile = new Profile(
+                        1,
+                        "SA",
+                        "Manuel Florez",
+                        "jason_alexander",
+                        "admin@app.com",
+                        "/assets/images/face-6.png",
+                        25
+                );
+                break;
+            case "externo@app.com":
+                new Profile(
+                        1,
+                        "SA",
+                        "Manuel Florez",
+                        "jason_alexander",
+                        "externo@app.com",
+                        "/assets/images/face-6.png",
+                        25
+                );
+                break;
+            default:
+                return ResponseEntity.ok(null);
+        }
+        return ResponseEntity.ok(profile);
     }
 
     @GetMapping("/users")

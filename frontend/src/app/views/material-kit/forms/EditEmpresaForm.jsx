@@ -31,7 +31,7 @@ const EditEmpresaForm = (props) => {
   }, [state.password]);
 
   const handleSubmit = (event) => {
-      axios.put("empresas/"+props.empresa.nit, {
+      axios.put("api/v1/empresas/"+props.empresa.nit, {
       nombre: event.target.nombre.value,
       direccion: event.target.direccion.value,
       telefono: event.target.telefono.value,

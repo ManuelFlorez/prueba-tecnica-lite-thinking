@@ -33,7 +33,7 @@ export default function Producto () {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    axios.get("productos").then(res => {
+    axios.get("api/v1/productos").then(res => {
       setProductos(res.data);
     })
   }, [])
@@ -48,10 +48,10 @@ export default function Producto () {
   };
 
   const deleteProduct = (productoId) => {
-    axios.delete("productos/"+productoId).then(res => {
+    axios.delete("api/v1/productos/"+productoId).then(res => {
       setAlertSuccess(true)
       setAlertError(false)
-      axios.get("productos").then(res => {
+      axios.get("api/v1/productos").then(res => {
         setProductos(res.data);
       })
     }).catch((error) => {

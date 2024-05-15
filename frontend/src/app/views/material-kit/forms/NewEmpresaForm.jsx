@@ -33,7 +33,7 @@ const NewEmpresaForm = () => {
   const handleSubmit = (event) => {
     // console.log("submitted");
     // console.log(event);
-    axios.post("empresas", {
+    axios.post("api/v1/empresas", {
       nit,
       nombre,
       direccion,

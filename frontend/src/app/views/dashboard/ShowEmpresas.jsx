@@ -28,7 +28,7 @@ const StyledTable = styled(Table)(() => ({
 export default function ShowEmpresas() {
 
   useEffect(() => {
-    axios.get("empresas").then(res => {
+    axios.get("api/v1/empresas").then(res => {
       setEmpresas(res.data);
     })
   }, [])

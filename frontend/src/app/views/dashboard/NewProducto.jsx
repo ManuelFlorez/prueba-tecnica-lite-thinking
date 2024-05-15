@@ -40,7 +40,7 @@ export default function NewProducto () {
   }, [state.password]);
 
   useEffect(() => {
-    axios.get("empresas").then(res => {
+    axios.get("api/v1/empresas").then(res => {
       setEmpresas(res.data);
     })
   }, [])
@@ -49,7 +49,7 @@ export default function NewProducto () {
     //console.log("submitted");
     //console.log(event);
 
-    axios.post("productos", {
+    axios.post("api/v1/productos", {
       codigo,
       nombre,
       caracteristicas,

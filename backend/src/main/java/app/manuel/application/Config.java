@@ -1,17 +1,26 @@
 package app.manuel.application;
 
 import app.manuel.domain.interfaces.GeneratePDF;
+import app.manuel.domain.interfaces.ICompanyRepository;
+import app.manuel.domain.interfaces.IProductRepository;
+import app.manuel.domain.interfaces.ITraceability;
 import app.manuel.domain.usecase.Auth;
 import app.manuel.domain.usecase.DownloadPDF;
-import app.manuel.infrastructure.adapter.creatorpdf.UtilPDF;
+import app.manuel.domain.usecase.companies.CompanyController;
+import app.manuel.domain.usecase.products.ProductController;
 import app.manuel.infrastructure.adapter.jwt.JwtService;
+import app.manuel.infrastructure.adapter.logger.TraceabilityImp;
 import app.manuel.infrastructure.adapter.postgres.entities.CustomUserDetail;
 import app.manuel.infrastructure.adapter.postgres.entities.User;
-import app.manuel.infrastructure.adapter.postgres.repository.ProductoRepository;
 import app.manuel.infrastructure.adapter.postgres.repository.UserRepository;
+import app.manuel.infrastructure.adapter.postgres.repository.company.CompanyRepository;
+import app.manuel.infrastructure.adapter.postgres.repository.company.CompanyRepositoryImpl;
+import app.manuel.infrastructure.adapter.postgres.repository.product.ProductRepository;
+import app.manuel.infrastructure.adapter.postgres.repository.product.ProductRepositoryImp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -62,13 +71,35 @@ public class Config {
     }
 
     @Bean
-    public DownloadPDF getDownloadPDF(ProductoRepository productoRepository, GeneratePDF generatePDF) {
-        return new DownloadPDF(productoRepository, generatePDF);
+    @Primary
+    public ITraceability getITraceability() {
+        return new TraceabilityImp();
     }
 
-    @Primary
     @Bean
-    public GeneratePDF getGeneratePDF() {
-        return new UtilPDF();
+    @Primary
+    public ICompanyRepository getICompanyRepository(@Lazy CompanyRepository companyRepository) {
+        return new CompanyRepositoryImpl(companyRepository);
+    }
+
+    @Bean
+    @Primary
+    public IProductRepository getIProductRepository(ProductRepository productRepository) {
+        return new ProductRepositoryImp((productRepository));
+    }
+
+    @Bean
+    public CompanyController getCompanyController(@Lazy ICompanyRepository companyRepository, ITraceability traceability) {
+        return new CompanyController(companyRepository, traceability);
+    }
+
+    @Bean
+    public ProductController getProductController(@Lazy IProductRepository productRepository, ITraceability traceability) {
+        return new ProductController(productRepository, traceability);
+    }
+
+    @Bean
+    public DownloadPDF getDownloadPDF(IProductRepository productRepository, GeneratePDF generatePDF) {
+        return new DownloadPDF(productRepository, generatePDF);
     }
 }

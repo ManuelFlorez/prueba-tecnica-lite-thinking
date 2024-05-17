@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.module.ResolutionException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +100,7 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResolutionException(USER_NOT_FOUND + userId));
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND + userId));
 
         userRepository.delete(user);
         Map<String, Boolean> response = new HashMap<>();

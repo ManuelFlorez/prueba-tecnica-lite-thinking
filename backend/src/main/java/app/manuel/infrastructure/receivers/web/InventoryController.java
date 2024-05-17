@@ -1,8 +1,9 @@
 package app.manuel.infrastructure.receivers.web;
 
 import app.manuel.domain.usecase.DownloadPDF;
+import app.manuel.infrastructure.receivers.web.exception.GeneratePDFException;
 import com.itextpdf.text.DocumentException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,19 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.FileNotFoundException;
 
 @RestController
-@RequestMapping("/api/v1")
-public class InventarioController {
+@RequestMapping("/api/v1/inventory")
+@RequiredArgsConstructor
+public class InventoryController {
 
-    private DownloadPDF downloadPDF;
-
-    @Autowired
-    public  InventarioController(DownloadPDF downloadPDF) {
-        this.downloadPDF = downloadPDF;
-    }
+    private final DownloadPDF downloadPDF;
 
     @CrossOrigin
     @GetMapping("/create-pdf")
-    private ResponseEntity<Resource> downloadPDF() {
+    private ResponseEntity<Resource> downloadPDF() throws GeneratePDFException {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -38,7 +35,7 @@ public class InventarioController {
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(downloadPDF.init());
         } catch (DocumentException | FileNotFoundException e) {
-            throw new RuntimeException("Download PDF error");
+            throw new GeneratePDFException("PDF error");
         }
     }
 

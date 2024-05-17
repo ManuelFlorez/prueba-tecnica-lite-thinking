@@ -48,5 +48,4 @@ public class UtilPDF implements GeneratePDF {
         }
         document.add(table);
     }
-
 }

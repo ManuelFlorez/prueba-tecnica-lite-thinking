@@ -55,20 +55,15 @@ export default function NewProducto() {
   }, []);
 
   const handleSubmit = (event) => {
-    //console.log("submitted");
-    //console.log(event);
-
     axios
       .post("api/v1/products", {
-        codigo,
-        nombre,
-        caracteristicas,
-        precio,
-        nitEmpresa
+        code: codigo,
+        name: nombre,
+        feature: caracteristicas,
+        price: precio,
+        companyNit: nitEmpresa
       })
       .then((res) => {
-        //console.log(res);
-        //console.log(res.data);
         navigate("/dashboard/producto");
       });
   };
@@ -136,7 +131,7 @@ export default function NewProducto() {
                 >
                   {empresas.map((empresa, index) => (
                     <MenuItem key={index} value={empresa.nit}>
-                      {empresa.nombre}
+                      {empresa.name}
                     </MenuItem>
                   ))}
                 </Select>

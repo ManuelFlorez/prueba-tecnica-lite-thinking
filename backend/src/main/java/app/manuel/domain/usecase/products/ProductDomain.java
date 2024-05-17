@@ -29,7 +29,7 @@ public class ProductDomain implements IProductDomain {
     public List<Product> findAll() {
         List<Product> products = productRepository.findAll();
         traceabilitySuccess("findAll", products.stream().map(Product::toString).toList().toString());
-        return List.of();
+        return products;
     }
 
     public Product findById(long id) throws ResourceNotFoundException {

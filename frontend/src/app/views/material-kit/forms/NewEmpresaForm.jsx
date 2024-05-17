@@ -28,9 +28,9 @@ const NewEmpresaForm = () => {
     axios
       .post("api/v1/companies", {
         nit,
-        nombre,
-        direccion,
-        telefono
+        name: nombre,
+        address: direccion,
+        telephone: telefono
       })
       .then((res) => {
         navigate("/dashboard/empresa");

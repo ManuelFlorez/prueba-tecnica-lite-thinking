@@ -75,10 +75,10 @@ export default function ShowEmpresas() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((subscriber, index) => (
                 <TableRow key={index}>
-                  <TableCell align="left">{subscriber.nombre}</TableCell>
+                  <TableCell align="left">{subscriber.name}</TableCell>
                   <TableCell align="center">{subscriber.nit}</TableCell>
-                  <TableCell align="center">{subscriber.direccion}</TableCell>
-                  <TableCell align="center">{subscriber.telefono}</TableCell>
+                  <TableCell align="center">{subscriber.address}</TableCell>
+                  <TableCell align="center">{subscriber.telephone}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

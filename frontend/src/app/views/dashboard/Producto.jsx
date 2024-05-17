@@ -115,11 +115,11 @@ export default function Producto() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((subscriber, index) => (
                   <TableRow key={index}>
-                    <TableCell align="left">{subscriber.codigo}</TableCell>
-                    <TableCell align="center">{subscriber.nombre}</TableCell>
-                    <TableCell align="center">{subscriber.caracteristicas}</TableCell>
-                    <TableCell align="center">{subscriber.precio}</TableCell>
-                    <TableCell align="center">{subscriber.empresa}</TableCell>
+                    <TableCell align="left">{subscriber.code}</TableCell>
+                    <TableCell align="center">{subscriber.name}</TableCell>
+                    <TableCell align="center">{subscriber.feature}</TableCell>
+                    <TableCell align="center">{subscriber.price}</TableCell>
+                    <TableCell align="center">{subscriber.companyNit}</TableCell>
                     <TableCell align="right">
                       <IconButton onClick={() => deleteProduct(subscriber.id)}>
                         <Icon color="error">delete_forever</Icon>

@@ -76,6 +76,7 @@ public class PostgresProductRepository implements IProductRepository {
                 .code(product.getCode())
                 .name(product.getName())
                 .features(product.getFeatures())
+                .price(product.getPrice())
                 .company(mapper(product.getCompany()))
                 .build();
     }

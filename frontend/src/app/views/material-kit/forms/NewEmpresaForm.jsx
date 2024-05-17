@@ -1,9 +1,4 @@
-import {
-  Button,
-  Grid,
-  Icon,
-  styled
-} from "@mui/material";
+import { Button, Grid, Icon, styled } from "@mui/material";
 import { Span } from "app/components/Typography";
 import axios from "app/utils/axios";
 import { useEffect, useState } from "react";
@@ -16,7 +11,6 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 const NewEmpresaForm = () => {
-
   const navigate = useNavigate();
 
   const [state, setState] = useState({ date: new Date() });
@@ -31,16 +25,16 @@ const NewEmpresaForm = () => {
   }, [state.password]);
 
   const handleSubmit = (event) => {
-    // console.log("submitted");
-    // console.log(event);
-    axios.post("api/v1/empresas", {
-      nit,
-      nombre,
-      direccion,
-      telefono,
-    }).then(res => {
-      navigate("/dashboard/empresa");
-    })
+    axios
+      .post("api/v1/companies", {
+        nit,
+        nombre,
+        direccion,
+        telefono
+      })
+      .then((res) => {
+        navigate("/dashboard/empresa");
+      });
   };
 
   const handleChange = (event) => {
@@ -48,12 +42,7 @@ const NewEmpresaForm = () => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
-  const {
-    nit,
-    nombre,
-    direccion,
-    telefono,
-  } = state;
+  const { nit, nombre, direccion, telefono } = state;
 
   return (
     <div>
@@ -100,7 +89,6 @@ const NewEmpresaForm = () => {
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
-
           </Grid>
         </Grid>
 

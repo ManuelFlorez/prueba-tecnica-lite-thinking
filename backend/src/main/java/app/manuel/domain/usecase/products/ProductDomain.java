@@ -1,18 +1,24 @@
 package app.manuel.domain.usecase.products;
 
+import app.manuel.application.usecases.IProductDomain;
 import app.manuel.domain.entities.Product;
 import app.manuel.domain.interfaces.IProductRepository;
 import app.manuel.domain.interfaces.ITraceability;
 import app.manuel.infrastructure.receivers.web.exception.ResourceNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-public class ProductController  {
+public class ProductDomain implements IProductDomain {
 
     private final IProductRepository productRepository;
     private final ITraceability traceability;
+
+    public ProductDomain(IProductRepository productRepository, ITraceability traceability) {
+        this.productRepository = productRepository;
+        this.traceability = traceability;
+    }
 
     public Product create(Product product) {
         Product productSave = productRepository.save(product);

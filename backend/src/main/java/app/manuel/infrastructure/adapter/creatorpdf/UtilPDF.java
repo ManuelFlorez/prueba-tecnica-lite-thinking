@@ -24,6 +24,7 @@ public class UtilPDF implements GeneratePDF {
     private static final String NAME = "inventario.pdf";
     private static final String[] HEADER = { "Nombre", "Codigo", "Precio", "Empresa" };
 
+    @Override
     public Resource createPDF(List<String[]> products) throws FileNotFoundException, DocumentException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(NAME));

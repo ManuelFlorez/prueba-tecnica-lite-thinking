@@ -4,18 +4,22 @@ import app.manuel.domain.entities.Company;
 import app.manuel.domain.entities.Product;
 import app.manuel.domain.interfaces.IProductRepository;
 import app.manuel.infrastructure.receivers.web.exception.ResourceNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class ProductRepositoryImp implements IProductRepository {
+public class PostgresProductRepository implements IProductRepository {
 
     private static final String PRODUCT_NOT_FOUNT = "Product not found for this id :: ";
     private final ProductRepository productRepository;
+
+    @Autowired
+    public PostgresProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product save(Product product) {

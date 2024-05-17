@@ -4,7 +4,7 @@ import app.manuel.domain.entities.Product;
 import app.manuel.domain.interfaces.GeneratePDF;
 import app.manuel.domain.interfaces.IProductRepository;
 import com.itextpdf.text.DocumentException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class DownloadPDF {
 
     private final IProductRepository productRepository;
     private final GeneratePDF generatePDF;
+
+    @Autowired
+    public DownloadPDF(IProductRepository productRepository, GeneratePDF generatePDF) {
+        this.productRepository = productRepository;
+        this.generatePDF = generatePDF;
+    }
 
     public Resource init() throws DocumentException, FileNotFoundException {
         List<Product> products = new ArrayList<>(this.productRepository.findAll());

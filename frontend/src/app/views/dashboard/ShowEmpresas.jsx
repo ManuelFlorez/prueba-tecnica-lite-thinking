@@ -1,4 +1,13 @@
-import { Box, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
+import {
+  Box,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow
+} from "@mui/material";
 import { Breadcrumb } from "app/components";
 import axios from "app/utils/axios";
 import { useEffect } from "react";
@@ -26,12 +35,11 @@ const StyledTable = styled(Table)(() => ({
 }));
 
 export default function ShowEmpresas() {
-
   useEffect(() => {
-    axios.get("api/v1/empresas").then(res => {
+    axios.get("api/v1/companies").then((res) => {
       setEmpresas(res.data);
-    })
-  }, [])
+    });
+  }, []);
 
   const [empresas, setEmpresas] = useState([]);
   const [page, setPage] = useState(0);

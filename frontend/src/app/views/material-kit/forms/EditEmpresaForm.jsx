@@ -1,9 +1,4 @@
-import {
-  Button,
-  Grid,
-  Icon,
-  styled
-} from "@mui/material";
+import { Button, Grid, Icon, styled } from "@mui/material";
 import { Span } from "app/components/Typography";
 import axios from "app/utils/axios";
 import { useEffect, useState } from "react";
@@ -16,7 +11,6 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 const EditEmpresaForm = (props) => {
-
   const navigate = useNavigate();
 
   const [state, setState] = useState({ date: new Date() });
@@ -31,14 +25,16 @@ const EditEmpresaForm = (props) => {
   }, [state.password]);
 
   const handleSubmit = (event) => {
-      axios.put("api/v1/empresas/"+props.empresa.nit, {
-      nombre: event.target.nombre.value,
-      direccion: event.target.direccion.value,
-      telefono: event.target.telefono.value,
-    }).then(res => {
-      navigate("/dashboard/empresa");
-      props.handleClose(false)
-    })
+    axios
+      .put("api/v1/companies/" + props.empresa.nit, {
+        nombre: event.target.nombre.value,
+        direccion: event.target.direccion.value,
+        telefono: event.target.telefono.value
+      })
+      .then((res) => {
+        navigate("/dashboard/companies");
+        props.handleClose(false);
+      });
   };
 
   const handleChange = (event) => {
@@ -46,18 +42,13 @@ const EditEmpresaForm = (props) => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
-  const {
-    nombre,
-    direccion,
-    telefono,
-  } = state;
+  const { nombre, direccion, telefono } = state;
 
   return (
     <div>
       <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
         <Grid container spacing={12}>
           <Grid item lg={12} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-
             <TextField
               type="text"
               name="nombre"
@@ -87,7 +78,6 @@ const EditEmpresaForm = (props) => {
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
-
           </Grid>
         </Grid>
 

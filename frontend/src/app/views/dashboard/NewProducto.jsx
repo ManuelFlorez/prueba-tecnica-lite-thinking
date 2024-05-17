@@ -1,4 +1,14 @@
-import { Box, Button, FormControl, Grid, Icon, InputLabel, MenuItem, Select, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  Icon,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled
+} from "@mui/material";
 import { Breadcrumb, SimpleCard } from "app/components";
 import { Span } from "app/components/Typography";
 import axios from "app/utils/axios";
@@ -22,8 +32,7 @@ const TextField = styled(TextValidator)(() => ({
   marginBottom: "16px"
 }));
 
-export default function NewProducto () {
-
+export default function NewProducto() {
   const [state, setState] = useState({ date: new Date(), nitEmpresa: "" });
 
   const [empresas, setEmpresas] = useState([]);
@@ -40,42 +49,38 @@ export default function NewProducto () {
   }, [state.password]);
 
   useEffect(() => {
-    axios.get("api/v1/empresas").then(res => {
+    axios.get("api/v1/companies").then((res) => {
       setEmpresas(res.data);
-    })
-  }, [])
+    });
+  }, []);
 
   const handleSubmit = (event) => {
     //console.log("submitted");
     //console.log(event);
 
-    axios.post("api/v1/productos", {
-      codigo,
-      nombre,
-      caracteristicas,
-      precio,
-      nitEmpresa
-    }).then(res => {
-      //console.log(res);
-      //console.log(res.data);
-      navigate("/dashboard/producto");
-    })
+    axios
+      .post("api/v1/products", {
+        codigo,
+        nombre,
+        caracteristicas,
+        precio,
+        nitEmpresa
+      })
+      .then((res) => {
+        //console.log(res);
+        //console.log(res.data);
+        navigate("/dashboard/producto");
+      });
   };
 
   const handleChange = (event) => {
-    if(event.persist) {
+    if (event.persist) {
       event.persist();
     }
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
-  const {
-    codigo,
-    nombre,
-    caracteristicas,
-    precio,
-    nitEmpresa
-  } = state;
+  const { codigo, nombre, caracteristicas, precio, nitEmpresa } = state;
 
   return (
     <Container>
@@ -84,75 +89,77 @@ export default function NewProducto () {
       </Box>
 
       <SimpleCard title="datos Producto">
-      <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
-        <Grid container spacing={12}>
-          <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-            <TextField
-              type="text"
-              name="codigo"
-              id="standard-basic"
-              value={codigo || ""}
-              onChange={handleChange}
-              errorMessages={["this field is required"]}
-              label="Codigo (Min length 4, Max length 9)"
-              validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
-            />
+        <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
+          <Grid container spacing={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+              <TextField
+                type="text"
+                name="codigo"
+                id="standard-basic"
+                value={codigo || ""}
+                onChange={handleChange}
+                errorMessages={["this field is required"]}
+                label="Codigo (Min length 4, Max length 9)"
+                validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+              />
 
-            <TextField
-              type="text"
-              name="nombre"
-              label="Nombre"
-              onChange={handleChange}
-              value={nombre || ""}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
+              <TextField
+                type="text"
+                name="nombre"
+                label="Nombre"
+                onChange={handleChange}
+                value={nombre || ""}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              />
 
-            <TextField
-              type="text"
-              name="caracteristicas"
-              label="Caracteristicas"
-              value={caracteristicas || ""}
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
-
-            <FormControl style={{ "marginBottom": "16px" }} fullWidth>
-              <InputLabel id="demo-simple-select-label">Seleccionar Empresa</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="nitEmpresa"
-                label="Seleccionar Empresa"
-                value={nitEmpresa}
+              <TextField
+                type="text"
+                name="caracteristicas"
+                label="Caracteristicas"
+                value={caracteristicas || ""}
                 onChange={handleChange}
                 validators={["required"]}
-              >
-                { empresas.map((empresa, index) => (
-                  <MenuItem key={index} value={empresa.nit}>{empresa.nombre}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                errorMessages={["this field is required"]}
+              />
 
-            <TextField
-              type="text"
-              name="precio"
-              label="Precio"
-              value={precio || ""}
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
+              <FormControl style={{ marginBottom: "16px" }} fullWidth>
+                <InputLabel id="demo-simple-select-label">Seleccionar Empresa</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="nitEmpresa"
+                  label="Seleccionar Empresa"
+                  value={nitEmpresa}
+                  onChange={handleChange}
+                  validators={["required"]}
+                >
+                  {empresas.map((empresa, index) => (
+                    <MenuItem key={index} value={empresa.nit}>
+                      {empresa.nombre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <TextField
+                type="text"
+                name="precio"
+                label="Precio"
+                value={precio || ""}
+                onChange={handleChange}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              />
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Button color="primary" variant="contained" type="submit">
-          <Icon>send</Icon>
-          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Crear</Span>
-        </Button>
-      </ValidatorForm>
+          <Button color="primary" variant="contained" type="submit">
+            <Icon>send</Icon>
+            <Span sx={{ pl: 1, textTransform: "capitalize" }}>Crear</Span>
+          </Button>
+        </ValidatorForm>
       </SimpleCard>
     </Container>
-  )
+  );
 }

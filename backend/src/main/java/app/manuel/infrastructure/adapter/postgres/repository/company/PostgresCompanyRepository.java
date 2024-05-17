@@ -4,18 +4,19 @@ import app.manuel.domain.entities.Company;
 import app.manuel.domain.interfaces.ICompanyRepository;
 import app.manuel.infrastructure.receivers.web.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyRepositoryImpl implements ICompanyRepository {
+@Service
+public class PostgresCompanyRepository implements ICompanyRepository {
 
     private static final String COMPANY_NOT_FOUNT = "Company not found for this id :: ";
     private final CompanyRepository companyRepository;
 
     @Autowired
-    public CompanyRepositoryImpl(@Lazy CompanyRepository companyRepository) {
+    public PostgresCompanyRepository(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
 

@@ -1,4 +1,23 @@
-import { Alert, AlertTitle, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Icon,
+  IconButton,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow
+} from "@mui/material";
 import { Breadcrumb } from "app/components";
 import axios from "app/utils/axios";
 import { useEffect } from "react";
@@ -27,23 +46,22 @@ const StyledTable = styled(Table)(() => ({
 }));
 
 export default function Empresa() {
-
   useEffect(() => {
-    axios.get("api/v1/empresas").then(res => {
+    axios.get("api/v1/companies").then((res) => {
       setEmpresas(res.data);
-    })
-  }, [])
+    });
+  }, []);
 
   const handleClickOpen = async (empresa) => {
-    await setEmpresaEdit(empresa)
+    await setEmpresaEdit(empresa);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    axios.get("api/v1/empresas").then(res => {
+    axios.get("api/v1/companies").then((res) => {
       setEmpresas(res.data);
-    })
+    });
   };
 
   const [open, setOpen] = useState(false);
@@ -64,20 +82,22 @@ export default function Empresa() {
     setPage(0);
   };
 
-
   const deleteEmpresa = (nit) => {
-    axios.delete("api/v1/empresas/"+nit).then(res => {
-      setAlertSuccess(true)
-      setAlertError(false)
-      axios.get("api/v1/empresas").then(res => {
-        setEmpresas(res.data);
+    axios
+      .delete("api/v1/companies/" + nit)
+      .then((res) => {
+        setAlertSuccess(true);
+        setAlertError(false);
+        axios.get("api/v1/companies").then((res) => {
+          setEmpresas(res.data);
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 500) {
+          setAlertError(true);
+        }
       });
-    }).catch((error) => {
-      if(error.response.status === 500) {
-        setAlertError(true)
-      }
-    })
-  }
+  };
 
   return (
     <Container>
@@ -85,19 +105,19 @@ export default function Empresa() {
         <Breadcrumb routeSegments={[{ name: "Listado de Empresas" }]} />
       </Box>
 
-      { alertError ? 
-      <Alert hidden={alertError} severity="error">
-        <AlertTitle>Error</AlertTitle>
-        Si las empresas han registrado productos, no se pueden eliminar.
-      </Alert>
-      : null }
+      {alertError ? (
+        <Alert hidden={alertError} severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Si las empresas han registrado productos, no se pueden eliminar.
+        </Alert>
+      ) : null}
 
-      { alertSuccess ? 
-      <Alert severity="success">
-        <AlertTitle>Success</AlertTitle>
-        Se ha eliminado la empresa, de forma exitosa.
-      </Alert>
-      : null }
+      {alertSuccess ? (
+        <Alert severity="success">
+          <AlertTitle>Success</AlertTitle>
+          Se ha eliminado la empresa, de forma exitosa.
+        </Alert>
+      ) : null}
 
       <Box width="100%" overflow="auto">
         <StyledTable>
@@ -150,9 +170,7 @@ export default function Empresa() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Editar información de la Empresa."}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Editar información de la Empresa."}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Esta es la información de la empresa que deseamos actualizar.

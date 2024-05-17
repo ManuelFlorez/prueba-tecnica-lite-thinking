@@ -1,10 +1,11 @@
 package app.manuel.infrastructure.receivers.web;
 
+import app.manuel.application.usecases.ICompanyDomain;
 import app.manuel.domain.entities.Company;
 import app.manuel.infrastructure.receivers.web.dto.CompanyDto;
 import app.manuel.infrastructure.receivers.web.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
 public class CompanyController {
 
-    private final app.manuel.domain.usecase.companies.CompanyController companyDomain;
+    private final ICompanyDomain companyDomain;
+
+    @Autowired
+    public CompanyController(ICompanyDomain companyDomain) {
+        this.companyDomain = companyDomain;
+    }
 
     @GetMapping("/companies")
     public ResponseEntity<List<CompanyDto>> getCompanies() {

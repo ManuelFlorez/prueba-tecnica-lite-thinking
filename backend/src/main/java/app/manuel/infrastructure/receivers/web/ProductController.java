@@ -1,10 +1,11 @@
 package app.manuel.infrastructure.receivers.web;
 
+import app.manuel.application.usecases.IProductDomain;
 import app.manuel.domain.entities.Product;
 import app.manuel.infrastructure.receivers.web.dto.ProductDto;
 import app.manuel.infrastructure.receivers.web.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
 public class ProductController {
 
-    private final app.manuel.domain.usecase.products.ProductController productDomain;
+    private final IProductDomain productDomain;
+
+    @Autowired
+    public ProductController(IProductDomain productDomain) {
+        this.productDomain = productDomain;
+    }
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDto>> getProducts() {
